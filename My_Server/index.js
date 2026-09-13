@@ -35,12 +35,16 @@ async function run() {
 
 
         // Api Connect Stasrt 
+
+        // Add New User 
         app.post("/products",async(req,res)=>{
             const newProducts=req.body;
             const result=await UserCollection.insertOne(newProducts)
             res.send(result)
         })
 
+
+        // Update User 
         app.patch("/products/:id",async(req,res)=>{
             const id=req.params.id;
             const UpdateProducts=req.body;
@@ -55,6 +59,23 @@ async function run() {
             res.send(result)
         })
 
+
+        // Find Single Data 
+        app.get("/products/:id",async(req,res)=>{
+            const id=req.params.id;
+            const quiry={_id:new ObjectId(id)}
+            const result=await UserCollection.findOne(quiry)
+            res.send(result)
+        })
+
+        // Find Full Data 
+        app.get("/products",async(req,res)=>{
+            const cursor=UserCollection.find()
+            const result=await cursor.toArray()
+            res.send(result)
+        })
+
+        // Delete User 
         app.delete("/products/:id",async(req,res)=>{
             const id=req.params.id;
             console.log("User Delete",id);
