@@ -16,7 +16,6 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
     serverApi: {
@@ -43,7 +42,6 @@ async function run() {
             res.send(result)
         })
 
-
         // Update User 
         app.patch("/products/:id",async(req,res)=>{
             const id=req.params.id;
@@ -58,7 +56,6 @@ async function run() {
             const result=await UserCollection.updateOne(quiry,update)
             res.send(result)
         })
-
 
         // Find Single Data 
         app.get("/products/:id",async(req,res)=>{
@@ -83,8 +80,6 @@ async function run() {
             const result=await UserCollection.deleteOne(quiry)
             res.send(result)
         })
-
-
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
