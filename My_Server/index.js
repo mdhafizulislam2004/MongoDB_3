@@ -31,6 +31,7 @@ async function run() {
         await client.connect();
         const SmartUser=client.db("Smart")
         const UserCollection=SmartUser.collection("User")
+        const bidsCollection=SmartUser.collection("bids")
 
 
         // Api Connect Stasrt 
@@ -79,6 +80,19 @@ async function run() {
             const quiry={_id: new ObjectId(id)}
             const result=await UserCollection.deleteOne(quiry)
             res.send(result)
+        })
+
+        // Bit Releted Apis 
+        app.get("/bids",async(req,res)=>{
+            const email=req.query.email;
+            const quiry={};
+            if(email){
+                quiry.buyer_email=email;
+            }
+            const coursor=bidsCollection.find(quiry)
+            const result=await coursor.toArray()
+            res.send(result)
+
         })
 
         // Send a ping to confirm a successful connection
