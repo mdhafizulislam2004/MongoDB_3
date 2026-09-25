@@ -2,8 +2,8 @@ import { NavLink } from "react-router";
 
 const Navbar = () => {
     const links=<>
-    <li className="p-2"><NavLink className={({isActive})=>isActive?"text-red-400":"text-white"} to="/home">Home</NavLink></li>
-    <li className="p-2"><NavLink className={({isActive})=>isActive?"text-red-400":"text-white"} to="/allproducts">All-Products</NavLink></li>
+    <li className="p-2"><NavLink className={({isActive})=>isActive?"text-red-400":"text-black"} to="/home">Home</NavLink></li>
+    <li className="p-2"><NavLink className={({isActive})=>isActive?"text-red-400":"text-black"} to="/allproducts">All-Products</NavLink></li>
     </>
     return (
        <div className="navbar bg-base-100 shadow-sm">
