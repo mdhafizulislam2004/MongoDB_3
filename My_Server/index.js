@@ -32,9 +32,24 @@ async function run() {
         const SmartUser=client.db("Smart")
         const UserCollection=SmartUser.collection("User")
         const bidsCollection=SmartUser.collection("bids")
-
+        const CollectionUser=SmartUser.collection("users")
 
         // Api Connect Stasrt 
+
+        app.post("/users",async(req,res)=>{
+            const newUser=req.body;
+
+            const email=req.body.email;
+            const quiry={email:email}
+            const existingUser=await CollectionUser.findOne(quiry)
+            if(existingUser){
+              return  res.send({Message:"User Alredy Existing,Please Login"})
+            }else{     
+                const result=await CollectionUser.insertOne(newUser)
+                res.send(result)
+            }
+
+        })
 
         // Add New User 
         app.post("/products",async(req,res)=>{
@@ -82,18 +97,33 @@ async function run() {
             res.send(result)
         })
 
-        // Bit Releted Apis 
+        // Bids Releted Apis 
         app.get("/bids",async(req,res)=>{
-            const email=req.query.email;
-            const quiry={};
-            if(email){
-                quiry.buyer_email=email;
-            }
-            const coursor=bidsCollection.find(quiry)
-            const result=await coursor.toArray()
-            res.send(result)
+           const email=req.query.email;
+           const quiry={}
+           if(email){
+            quiry.buyer_email=email
+           }
+           const cursor= bidsCollection.find(quiry)
+           const result=await cursor.toArray()
+           res.send(result)
+
 
         })
+
+        // Bids Post Apis
+      app.post("bids",async(req,res)=>{
+        const quiry=req.body;
+        const result=await bidsCollection.insertOne(quiry)
+        res.send(result)
+      })
+
+      app.delete("/bids",async(req,res)=>{
+        const id=req.params.id;
+        const quiry={_id: new ObjectId(id)}
+        const result=await bidsCollection.deleteOne(quiry)
+        res.send(result)
+      })
 
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
@@ -104,7 +134,6 @@ async function run() {
     }
 }
 run().catch(console.dir);
-
 
 
 app.listen(port, () => {
