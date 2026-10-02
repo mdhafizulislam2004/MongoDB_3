@@ -10,6 +10,7 @@ import AllProducts from './Components/AllProducts';
 import AuthProvider from './Context/AuthProvider';
 import Login from './Components/Login';
 import Register from './Components/Register';
+import PrivateRoute from './PrivateRoute/PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +24,9 @@ const router = createBrowserRouter([
       },
       {
         path: "/allproducts",
-        Component: AllProducts
+        element:<PrivateRoute>
+          <AllProducts/>
+        </PrivateRoute>
       },
       {
         path:"/login",
